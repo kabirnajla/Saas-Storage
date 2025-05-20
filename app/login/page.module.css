@@ -1,0 +1,169 @@
+.main {
+  min-height: 100vh;
+  background: linear-gradient(
+    to bottom right,
+    #4b0082,
+    #8a2be2
+  ); /* ม่วงเข้ม → ม่วงอ่อน */
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+}
+
+.navLinks {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+}
+
+.navLinks li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navLinks li a:hover {
+  color: #00ffff;
+}
+
+.searchIcon {
+  font-size: 1.2rem;
+  color: white;
+}
+
+/* Login Section */
+.loginSection {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 40px;
+}
+
+.loginForm {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 40px;
+  border-radius: 12px;
+  max-width: 350px;
+  width: 100%;
+  animation: fadeIn 1.5s ease forwards;
+  color: white;
+}
+
+.loginForm h2 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.loginForm h3 {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.loginForm label {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.loginForm input[type="text"],
+.loginForm input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.rememberMe {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.loginForm button {
+  width: 100%;
+  padding: 10px;
+  background-color: #00bfff;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.loginForm button:hover {
+  background-color: #009acd;
+}
+
+.signupBtn {
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+}
+
+.signupBtn:hover {
+  background-color: white;
+  color: #4b0082;
+}
+
+.loginBtn {
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+}
+
+.loginBtn:hover {
+  background-color: white;
+  color: #4b0082;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .loginSection {
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navLinks {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

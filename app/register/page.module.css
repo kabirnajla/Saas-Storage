@@ -1,0 +1,149 @@
+.main {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #4b0082, #8a2be2);
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+}
+
+.navLinks {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+}
+
+.navLinks li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navLinks li a:hover {
+  color: #00ffff;
+}
+
+.searchIcon {
+  font-size: 1.2rem;
+  color: white;
+}
+
+/* Register Section */
+.registerSection {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 40px;
+}
+
+.registerForm {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 40px;
+  border-radius: 12px;
+  max-width: 350px;
+  width: 100%;
+  animation: fadeIn 1.5s ease forwards;
+  color: white;
+}
+
+.registerForm h2 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.registerForm h3 {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.registerForm label {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.registerForm input[type="text"],
+.registerForm input[type="email"],
+.registerForm input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.registerForm button {
+  width: 100%;
+  padding: 10px;
+  background-color: #00bfff;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.registerForm button:hover {
+  background-color: #009acd;
+}
+
+.loginBtn {
+  margin-top: 10px;
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+}
+
+.loginBtn:hover {
+  background-color: white;
+  color: #4b0082;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .registerSection {
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navLinks {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

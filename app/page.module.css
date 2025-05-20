@@ -1,0 +1,246 @@
+.main {
+  padding: 0;
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9fbfc;
+  color: #333;
+  scroll-behavior: smooth;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: #1e2a38;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navLinks {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  padding: 0;
+  margin: 0;
+}
+
+.navLinks li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navLinks li a:hover {
+  color: #00bfff;
+}
+
+.signIn {
+  background-color: #00bfff;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+.signIn:hover {
+  background-color: #009acd;
+}
+
+.signupBtn,
+.loginBtn {
+  display: inline-block;
+  text-align: center;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.signupBtn {
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+}
+
+.signupBtn:hover {
+  background-color: white;
+  color: #4b0082;
+}
+
+.loginBtn {
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+}
+
+.loginBtn:hover {
+  background-color: white;
+  color: #4b0082;
+}
+
+/* Hero Section */
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 60px 40px;
+  background: linear-gradient(to right, #e0f7ff, #ffffff);
+}
+
+.heroContent {
+  flex: 1 1 400px;
+  max-width: 600px;
+  padding: 20px;
+  animation: fadeInUp 1s ease forwards;
+}
+
+.heroContent h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #1e2a38;
+}
+
+.heroContent p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: #555;
+}
+
+.cta {
+  background-color: #00bfff;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.cta:hover {
+  background-color: #009acd;
+  transform: translateY(-2px);
+}
+
+.heroImage {
+  flex: 1 1 300px;
+  text-align: center;
+  padding: 20px;
+  animation: fadeIn 1.5s ease forwards;
+}
+
+.heroImage img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Services Section */
+.services {
+  padding: 60px 40px;
+  background-color: #f0f8ff;
+  text-align: center;
+}
+
+.services h2 {
+  font-size: 2rem;
+  margin-bottom: 40px;
+  color: #1e2a38;
+}
+
+.serviceCards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  max-width: 300px;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card h3 {
+  color: #007acc;
+  margin-bottom: 15px;
+}
+
+.card p {
+  color: #555;
+  font-size: 0.95rem;
+}
+
+/* Footer */
+.footer {
+  background-color: #1e2a38;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+  margin-top: 60px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .navLinks {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .signIn {
+    margin-top: 10px;
+  }
+}
