@@ -143,6 +143,37 @@
   word-break: break-all;
 }
 
+.createFolderBox {
+  border: 2px dashed #a3a3a3;
+  border-radius: 10px;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 120px;    /* ขยายจาก 100px เป็น 120px */
+  height: 130px;   /* ขยายจาก 120px เป็น 130px */
+  cursor: pointer;
+  opacity: 0.7;
+  position: relative;
+  overflow: hidden;
+}
+.createFolderBox:hover {
+  border-color: #2563eb;
+  background: #f3f4f6;
+}
+
+.createFolderBox span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 8px;
+  display: block;
+}
+
 .modal {
   position: fixed;
   top: 0;

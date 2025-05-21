@@ -27,6 +27,7 @@ interface Folder {
 interface Image {
   id: number;
   url: string;
+  detail?: string;
 }
 
 export default function DashboardPage() {
@@ -36,6 +37,13 @@ export default function DashboardPage() {
   const [images, setImages] = useState<Image[]>([]);
   const [selectedImages, setSelectedImages] = useState<number[]>([]);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
+
+  // เพิ่ม state สำหรับรายละเอียดและแก้ไข
+  const [editDetail, setEditDetail] = useState("");
+  const [editMode, setEditMode] = useState(false);
+
+  const [showCreateFolderBox, setShowCreateFolderBox] = useState(false);
+  const [newFolderName, setNewFolderName] = useState("");
 
   const createFolder = () => {
     if (!folderName.trim()) return;
@@ -73,8 +81,10 @@ export default function DashboardPage() {
   };
 
   const deleteImage = (imageId: number) => {
-    setImages(images.filter((image) => image.id !== imageId));
-    setSelectedImages(selectedImages.filter((id) => id !== imageId));
+    if (window.confirm("Are you sure you want to delete this image?")) {
+      setImages(images.filter((image) => image.id !== imageId));
+      setSelectedImages(selectedImages.filter((id) => id !== imageId));
+    }
   };
 
   const downloadSelectedImages = () => {
@@ -87,8 +97,13 @@ export default function DashboardPage() {
   };
 
   const deleteSelectedImages = () => {
-    setImages(images.filter((image) => !selectedImages.includes(image.id)));
-    setSelectedImages([]);
+    if (
+      selectedImages.length > 0 &&
+      window.confirm("Are you sure you want to delete the selected images?")
+    ) {
+      setImages(images.filter((image) => !selectedImages.includes(image.id)));
+      setSelectedImages([]);
+    }
   };
 
   return (
@@ -141,27 +156,84 @@ export default function DashboardPage() {
         </div>
 
         <div className={styles.folderArea}>
-          {folders.length === 0 ? (
-            <div className={styles.emptyState}>
-              <AlertCircle size={40} />
-              <p>No folders yet. Create your first folder.</p>
+          <div className={styles.folderGrid}>
+            {folders.map((folder) => (
+              <div
+                key={folder.id}
+                className={styles.folder}
+                onClick={() => setSelectedFolder(folder)}
+              >
+                <img
+                  src="https://img.icons8.com/?size=100&id=12160&format=png&color=000000"
+                  alt="Folder Icon"
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
+                <span>{folder.name}</span>
+              </div>
+            ))}
+            <div
+              className={styles.createFolderBox}
+              onClick={() => setShowCreateFolderBox(true)}
+            >
+              <img
+                src="https://img.icons8.com/?size=100&id=EwrafVcwf3ss&format=png&color=000000"
+                alt="Create Folder"
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
+              <span style={{ color: "#888" }}>New Folder</span>
             </div>
-          ) : (
-            <div className={styles.folderGrid}>
-              {folders.map((folder) => (
+          </div>
+          {showCreateFolderBox && (
+            <div className={styles.modal}>
+              <div className={styles.modalContent} style={{ maxWidth: 320 }}>
+                <h3 style={{ marginBottom: 16 }}>Create New Folder</h3>
+                <input
+                  type="text"
+                  value={newFolderName}
+                  onChange={(e) => setNewFolderName(e.target.value)}
+                  placeholder="Folder name"
+                  style={{
+                    width: "100%",
+                    padding: "0.5rem",
+                    border: "1px solid #d1d5db",
+                    borderRadius: "0.375rem",
+                    marginBottom: 16,
+                  }}
+                  autoFocus
+                />
                 <div
-                  key={folder.id}
-                  className={styles.folder}
-                  onClick={() => setSelectedFolder(folder)}
+                  style={{
+                    display: "flex",
+                    gap: 8,
+                    justifyContent: "flex-end",
+                  }}
                 >
-                  <img
-                    src="https://img.icons8.com/?size=100&id=12160&format=png&color=000000"
-                    alt="Folder Icon"
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                  />
-                  <span>{folder.name}</span>
+                  <button
+                    className={styles.actionButton}
+                    onClick={() => {
+                      if (newFolderName.trim()) {
+                        setFolders([
+                          ...folders,
+                          { id: Date.now(), name: newFolderName.trim() },
+                        ]);
+                        setNewFolderName("");
+                        setShowCreateFolderBox(false);
+                      }
+                    }}
+                  >
+                    Create
+                  </button>
+                  <button
+                    className={styles.closeButton}
+                    onClick={() => {
+                      setShowCreateFolderBox(false);
+                      setNewFolderName("");
+                    }}
+                  >
+                    Cancel
+                  </button>
                 </div>
-              ))}
+              </div>
             </div>
           )}
         </div>
@@ -200,7 +272,9 @@ export default function DashboardPage() {
                   }
                 }}
               >
-                {selectedImages.length === images.length ? "Unselect All" : "Select All"}
+                {selectedImages.length === images.length
+                  ? "Unselect All"
+                  : "Select All"}
               </button>
             </div>
             <div className={styles.imageGrid}>
@@ -219,7 +293,7 @@ export default function DashboardPage() {
                   <input
                     type="checkbox"
                     checked={selectedImages.includes(img.id)}
-                    onChange={e => {
+                    onChange={(e) => {
                       e.stopPropagation();
                       toggleSelectImage(img.id);
                     }}
@@ -238,17 +312,125 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {previewImage && (
+      {previewImage && images.find((img) => img.url === previewImage) && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
             <img
               src={previewImage}
               alt="Preview"
-              style={{ maxWidth: "80vw", maxHeight: "80vh" }}
+              style={{ maxWidth: "80vw", maxHeight: "60vh" }}
             />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "flex-start",
+                marginTop: 16,
+              }}
+            >
+              <div
+                style={{
+                  minWidth: 220,
+                  marginLeft: 24,
+                  position: "relative",
+                }}
+              >
+                {editMode ? (
+                  <div
+                    style={{
+                      position: "relative",
+                      padding: "1rem",
+                      border: "1px solid #e5e7eb",
+                      borderRadius: 8,
+                      background: "#f9fafb",
+                    }}
+                  >
+                    <input
+                      type="text"
+                      value={editDetail}
+                      onChange={(e) => setEditDetail(e.target.value)}
+                      style={{ width: "100%", marginBottom: 8 }}
+                    />
+                    <button
+                      className={styles.actionButton}
+                      style={{
+                        position: "absolute",
+                        top: 8,
+                        right: 8,
+                        padding: 4,
+                        minWidth: 0,
+                      }}
+                      onClick={() => {
+                        setImages(
+                          images.map((img) =>
+                            img.url === previewImage
+                              ? { ...img, detail: editDetail }
+                              : img
+                          )
+                        );
+                        setEditMode(false);
+                      }}
+                    >
+                      Save
+                    </button>
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      position: "relative",
+                      padding: "1rem",
+                      border: "1px solid #e5e7eb",
+                      borderRadius: 8,
+                      background: "#f9fafb",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: 14,
+                        color: "#374151",
+                        marginBottom: 8,
+                      }}
+                    >
+                      {images.find((img) => img.url === previewImage)?.detail ||
+                        "No detail"}
+                    </div>
+                    <button
+                      className={styles.iconButton}
+                      onClick={() => {
+                        setEditDetail(
+                          images.find((img) => img.url === previewImage)
+                            ?.detail || ""
+                        );
+                        setEditMode(true);
+                      }}
+                      style={{
+                        position: "absolute",
+                        top: 8,
+                        right: 8,
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                        padding: 0,
+                      }}
+                      title="Edit detail"
+                    >
+                      <img
+                        src="https://img.icons8.com/?size=100&id=47749&format=png&color=000000"
+                        alt="Edit"
+                        width={20}
+                        height={20}
+                      />
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
             <button
               className={styles.closeButton}
-              onClick={() => setPreviewImage(null)}
+              onClick={() => {
+                setPreviewImage(null);
+                setEditMode(false);
+              }}
             >
               Close
             </button>

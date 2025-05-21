@@ -7,7 +7,7 @@ This project is built with [Next.js](https://nextjs.org) using [`create-next-app
 1. Install dependencies:
 
 ```bash
-pnpm install // pnpm add lucide-react --force
+pnpm install
 ```
 
 2. Run the development server:
@@ -25,6 +25,15 @@ pnpm dev
 - `public/` — Public assets such as images
 - `styles/` — CSS/SCSS files
 - `README.md` — This documentation file
+
+## Features
+
+- Create and manage folders with a visual folder grid
+- Upload images to each folder
+- Select, preview, and delete images (with confirmation)
+- Add and edit image details (with inline form and edit icon)
+- "New Folder" box always appears at the end of the folder grid, with a dashed border and icon
+- Responsive and modern UI with custom styles
 
 ## Editing the Homepage
 
