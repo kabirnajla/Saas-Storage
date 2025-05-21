@@ -179,22 +179,22 @@ export default function DashboardPage() {
               <button onClick={deleteSelectedImages}>Delete Selected</button>
             </div>
             <div className={styles.imageGrid}>
-              {images.map((img) => (
+                {images.map((img) => (
                 <div key={img.id} className={styles.imageCard}>
                   <img src={img.url} alt={`img-${img.id}`} />
                   <div className={styles.imageActions}>
-                    <button onClick={() => downloadImage(img.url)}>
-                      Download
-                    </button>
-                    <button onClick={() => deleteImage(img.id)}>Delete</button>
-                    <input
-                      type="checkbox"
-                      checked={selectedImages.includes(img.id)}
-                      onChange={() => toggleSelectImage(img.id)}
-                    />
+                  <button onClick={() => downloadImage(img.url)}>
+                    <File size={18} /> Download
+                  </button>
+                  <button onClick={() => deleteImage(img.id)}>Delete</button>
+                  <input
+                    type="checkbox"
+                    checked={selectedImages.includes(img.id)}
+                    onChange={() => toggleSelectImage(img.id)}
+                  />
                   </div>
                 </div>
-              ))}
+                ))}
             </div>
             <button
               className={styles.closeButton}
