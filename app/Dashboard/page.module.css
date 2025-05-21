@@ -120,17 +120,29 @@
 }
 
 .folder {
-  background-color: #f3f4f6;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  width: 150px;
-  text-align: center;
+  width: 80px;
+  height: 110px; /* เพิ่มความสูง */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  justify-content: flex-start;
+  padding: 4px 0;
 }
+
+.folder img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.folder span {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 14px;
+  word-break: break-all;
+}
+
 .modal {
   position: fixed;
   top: 0;
@@ -167,15 +179,53 @@
 }
 
 .imageCard img {
-  width: 100%;
-  height: auto;
-  border-radius: 0.25rem;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 .imageActions {
   display: flex;
-  justify-content: space-between;
-  margin-top: 0.5rem;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin: 1.5rem 0 1rem 0;
+}
+
+.actionButton {
+  background: linear-gradient(90deg, #2563eb 0%, #3b82f6 100%);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.08);
+  transition: background 0.2s, transform 0.1s;
+}
+
+.actionButton:hover {
+  background: linear-gradient(90deg, #1d4ed8 0%, #2563eb 100%);
+  transform: translateY(-2px) scale(1.04);
+}
+
+.actionButtonDanger {
+  background: linear-gradient(90deg, #ef4444 0%, #f87171 100%);
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(239,68,68,0.08);
+  transition: background 0.2s, transform 0.1s;
+}
+
+.actionButtonDanger:hover {
+  background: linear-gradient(90deg, #dc2626 0%, #ef4444 100%);
+  transform: translateY(-2px) scale(1.04);
 }
 
 .closeButton {
@@ -190,4 +240,8 @@
 
 .closeButton:hover {
   background-color: #dc2626;
+}
+
+.iconButton img {
+  vertical-align: middle;
 }

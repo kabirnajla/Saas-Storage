@@ -7,7 +7,7 @@ This project is built with [Next.js](https://nextjs.org) using [`create-next-app
 1. Install dependencies:
 
 ```bash
-pnpm install
+pnpm install // pnpm add lucide-react --force
 ```
 
 2. Run the development server:

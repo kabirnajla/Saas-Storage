@@ -35,6 +35,7 @@ export default function DashboardPage() {
   const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null);
   const [images, setImages] = useState<Image[]>([]);
   const [selectedImages, setSelectedImages] = useState<number[]>([]);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
 
   const createFolder = () => {
     if (!folderName.trim()) return;
@@ -153,7 +154,11 @@ export default function DashboardPage() {
                   className={styles.folder}
                   onClick={() => setSelectedFolder(folder)}
                 >
-                  <File size={24} />
+                  <img
+                    src="https://img.icons8.com/?size=100&id=12160&format=png&color=000000"
+                    alt="Folder Icon"
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  />
                   <span>{folder.name}</span>
                 </div>
               ))}
@@ -173,32 +178,77 @@ export default function DashboardPage() {
               onChange={handleUpload}
             />
             <div className={styles.imageActions}>
-              <button onClick={downloadSelectedImages}>
+              <button
+                className={styles.actionButton}
+                onClick={downloadSelectedImages}
+              >
                 Download Selected
               </button>
-              <button onClick={deleteSelectedImages}>Delete Selected</button>
+              <button
+                className={styles.actionButtonDanger}
+                onClick={deleteSelectedImages}
+              >
+                Delete Selected
+              </button>
+              <button
+                className={styles.actionButton}
+                onClick={() => {
+                  if (selectedImages.length === images.length) {
+                    setSelectedImages([]);
+                  } else {
+                    setSelectedImages(images.map((img) => img.id));
+                  }
+                }}
+              >
+                {selectedImages.length === images.length ? "Unselect All" : "Select All"}
+              </button>
             </div>
             <div className={styles.imageGrid}>
-                {images.map((img) => (
-                <div key={img.id} className={styles.imageCard}>
-                  <img src={img.url} alt={`img-${img.id}`} />
-                  <div className={styles.imageActions}>
-                  <button onClick={() => downloadImage(img.url)}>
-                    <File size={18} /> Download
-                  </button>
-                  <button onClick={() => deleteImage(img.id)}>Delete</button>
+              {images.map((img) => (
+                <div
+                  key={img.id}
+                  className={styles.imageCard}
+                  onClick={() => setPreviewImage(img.url)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <img
+                    src={img.url}
+                    alt={`img-${img.id}`}
+                    style={{ width: 120, height: 120, objectFit: "cover" }}
+                  />
                   <input
                     type="checkbox"
                     checked={selectedImages.includes(img.id)}
-                    onChange={() => toggleSelectImage(img.id)}
+                    onChange={e => {
+                      e.stopPropagation();
+                      toggleSelectImage(img.id);
+                    }}
+                    style={{ marginTop: 8 }}
                   />
-                  </div>
                 </div>
-                ))}
+              ))}
             </div>
             <button
               className={styles.closeButton}
               onClick={() => setSelectedFolder(null)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {previewImage && (
+        <div className={styles.modal}>
+          <div className={styles.modalContent}>
+            <img
+              src={previewImage}
+              alt="Preview"
+              style={{ maxWidth: "80vw", maxHeight: "80vh" }}
+            />
+            <button
+              className={styles.closeButton}
+              onClick={() => setPreviewImage(null)}
             >
               Close
             </button>
