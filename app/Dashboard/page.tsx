@@ -24,9 +24,17 @@ interface Folder {
   name: string;
 }
 
+interface Image {
+  id: number;
+  url: string;
+}
+
 export default function DashboardPage() {
   const [folders, setFolders] = useState<Folder[]>([]);
   const [folderName, setFolderName] = useState("");
+  const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null);
+  const [images, setImages] = useState<Image[]>([]);
+  const [selectedImages, setSelectedImages] = useState<number[]>([]);
 
   const createFolder = () => {
     if (!folderName.trim()) return;
@@ -36,6 +44,50 @@ export default function DashboardPage() {
     };
     setFolders([...folders, newFolder]);
     setFolderName("");
+  };
+
+  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      const newImages = Array.from(event.target.files).map((file, index) => ({
+        id: Date.now() + index,
+        url: URL.createObjectURL(file),
+      }));
+      setImages([...images, ...newImages]);
+    }
+  };
+
+  const toggleSelectImage = (imageId: number) => {
+    setSelectedImages((prevSelectedImages) =>
+      prevSelectedImages.includes(imageId)
+        ? prevSelectedImages.filter((id) => id !== imageId)
+        : [...prevSelectedImages, imageId]
+    );
+  };
+
+  const downloadImage = (url: string) => {
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "image.jpg";
+    link.click();
+  };
+
+  const deleteImage = (imageId: number) => {
+    setImages(images.filter((image) => image.id !== imageId));
+    setSelectedImages(selectedImages.filter((id) => id !== imageId));
+  };
+
+  const downloadSelectedImages = () => {
+    selectedImages.forEach((imageId) => {
+      const image = images.find((img) => img.id === imageId);
+      if (image) {
+        downloadImage(image.url);
+      }
+    });
+  };
+
+  const deleteSelectedImages = () => {
+    setImages(images.filter((image) => !selectedImages.includes(image.id)));
+    setSelectedImages([]);
   };
 
   return (
@@ -96,7 +148,11 @@ export default function DashboardPage() {
           ) : (
             <div className={styles.folderGrid}>
               {folders.map((folder) => (
-                <div key={folder.id} className={styles.folder}>
+                <div
+                  key={folder.id}
+                  className={styles.folder}
+                  onClick={() => setSelectedFolder(folder)}
+                >
                   <File size={24} />
                   <span>{folder.name}</span>
                 </div>
@@ -105,6 +161,50 @@ export default function DashboardPage() {
           )}
         </div>
       </main>
+
+      {selectedFolder && (
+        <div className={styles.modal}>
+          <div className={styles.modalContent}>
+            <h2>{selectedFolder.name}</h2>
+            <input
+              type="file"
+              multiple
+              accept="image/*"
+              onChange={handleUpload}
+            />
+            <div className={styles.imageActions}>
+              <button onClick={downloadSelectedImages}>
+                Download Selected
+              </button>
+              <button onClick={deleteSelectedImages}>Delete Selected</button>
+            </div>
+            <div className={styles.imageGrid}>
+              {images.map((img) => (
+                <div key={img.id} className={styles.imageCard}>
+                  <img src={img.url} alt={`img-${img.id}`} />
+                  <div className={styles.imageActions}>
+                    <button onClick={() => downloadImage(img.url)}>
+                      Download
+                    </button>
+                    <button onClick={() => deleteImage(img.id)}>Delete</button>
+                    <input
+                      type="checkbox"
+                      checked={selectedImages.includes(img.id)}
+                      onChange={() => toggleSelectImage(img.id)}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+            <button
+              className={styles.closeButton}
+              onClick={() => setSelectedFolder(null)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
